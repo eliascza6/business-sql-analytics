@@ -66,7 +66,7 @@ Auditando un ciclo agrícola real de **50.0 Hectáreas** y **2,361.76 Toneladas 
 | **Deducciones Totales de Zafra** | **$1,408,745.93** | Retenciones del ingenio por corte, flete, cuotas y amortizaciones. |
 | **Tasa de Absorción Logística Promedio** | **59.92%** | Cosecha y acarreo consumen más de la mitad del valor del cañal. |
 | **Alcance Neto Depositado por Ingenio** | **$599,072.25** | Efectivo aparente recibido por los productores en banco. |
-| **Inversión Agronómica de Campo** | **$822,400.00** | Egresos reales de cultivo ($16,000–$17,000 MXN/Ha en soca)[cite: 19]. |
+| **Inversión Agronómica de Campo** | **$822,400.00** | Egresos reales de cultivo ($16,000–$17,000 MXN/Ha en soca). |
 | **Margen Neto de Bolsillo Real** | **-$223,327.75** | **Déficit operativo consolidado encubierto para el cañero.** |
 
 ```text
@@ -82,8 +82,8 @@ Auditando un ciclo agrícola real de **50.0 Hectáreas** y **2,361.76 Toneladas 
 
 ### Diagnóstico de Semáforo de Riesgo
 
-* **SOBRECOSTO LOGISTICO (Mayor al 55% de absorción):** Predios donde el flete y corte castigaron severamente la utilidad[cite: 15, 19].
-* **CONTROLADO (Menor al 50% de absorción):** Predios optimizados donde el margen neto amortizó los costos de cultivo (ej. `LOTE-006` con utilidad positiva de **+$5,017.43 MXN**)[cite: 15, 16].
+* **SOBRECOSTO LOGISTICO (Mayor al 55% de absorción):** Predios donde el flete y corte castigaron severamente la utilidad.
+* **CONTROLADO (Menor al 50% de absorción):** Predios optimizados donde el margen neto amortizó los costos de cultivo (ej. `LOTE-006` con utilidad positiva de **+$5,017.43 MXN**).
 
 ---
 
@@ -96,10 +96,10 @@ Auditando un ciclo agrícola real de **50.0 Hectáreas** y **2,361.76 Toneladas 
 ## 5. Estructura del Repositorio
 
 * **`sql/`**: Scripts DDL de tablas particionadas, ingesta atómica y vista maestra compilada.
-  * `01_dim_parcelas.sql`: Catastro parcelario y régimen fiscal SAT[cite: 19].
-  * `02_fact_karbe_molienda.sql`: Liquidaciones y retenciones del ingenio[cite: 19].
-  * `03_fact_registro_costos.sql`: Inversión agronómica particionada por fecha[cite: 19].
+  * `01_dim_parcelas.sql`: Catastro parcelario y régimen fiscal SAT.
+  * `02_fact_karbe_molienda.sql`: Liquidaciones y retenciones del ingenio.
+  * `03_fact_registro_costos.sql`: Inversión agronómica particionada por fecha.
   * `04_vw_datos_maestros.sql`: Motor lógico de márgenes y semáforos.
   * `05_auditoria_metricas.sql`: Script de cuadratura y validación de totales.
-* **`docs/`**: Diccionario de datos oficial v4.2 con reglas de negocio y calibración de costos estándar de soca ($16,810/Ha) y plantilla ($34,690/Ha)[cite: 19].
+* **`docs/`**: Diccionario de datos oficial v4.2 con reglas de negocio y calibración de costos estándar de soca ($16,810/Ha) y plantilla ($34,690/Ha).
 * **`img/`**: Capturas del reporte ejecutivo interactivo desplegado en Looker Studio.
