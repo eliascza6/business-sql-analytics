@@ -44,6 +44,9 @@ Operando bajo la **regla estricta de $0 USD de costo de infraestructura**, el si
 │  • KPIs de Superficie, Molienda y Costo Unitario de Acarreo            │
 │  • Matriz de Rentabilidad Predial y Auditoría de Deducciones           │
 └────────────────────────────────────────────────────────────────────────┘
+
+```
+
 ### Modelo Dimensional Estrella
 
 * **`dim_parcelas`:** Dimensión conformada que registra superficie real cosechada, variedad agronómica, contrato de ingenio y régimen fiscal SAT (RESICO, PFAE, AGAPE).
@@ -75,6 +78,7 @@ Auditando un ciclo agrícola real de **50.0 Hectáreas** y **2,361.76 Toneladas 
   │
   └── [ - ] Egresos Reales de Cultivo: $822,400.00 MXN (Fertilizantes + Labores)
             └── SALDO FINAL DE BOLSILLO: -$223,327.75 MXN (Déficit Real)
+```
 
 ### Diagnóstico de Semáforo de Riesgo
 
