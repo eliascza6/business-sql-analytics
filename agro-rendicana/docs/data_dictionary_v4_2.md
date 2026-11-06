@@ -6,25 +6,19 @@ Versión: 4.2 Calibrada y Multi-Régimen Fiscal (2026)
 ---
 1. MODELADO DIMENSIONAL (FRAMEWORK E.V.A.)
 TABLAS DE DIMENSIONES (Catálogos y Contexto)
-1. `03\_REGISTRO\_PARCELAS` (Dimensión Predio - Multi-tenant y Fiscal)
-Propósito: Almacenar las características físicas, agronómicas, contractuales y el régimen tributario de cada parcela asociada a un productor.
-`Productor\_ID` (STRING, FK): Identificador único del usuario o titular de la explotación (ej. `PROD-001`). Habilita la arquitectura multi-tenant para aislar parcelas en consultas y dashboards.
-`Lote\_ID` (STRING, PK): Identificador único del predio o tabla cañera (ej. `LOTE-001`).
-`Nombre\_Predio` (STRING): Nombre común o toponímico de la parcela (ej. Rancho El Nanchal, Tabla La Ceiba).
-`Superficie\_Ha` (NUMERIC): Extensión territorial cultivable expresada en hectáreas.
-`Variedad` (STRING): Variedad agronómica de caña de azúcar establecida (ej. `CP 72-2086`, `MEX 69-290`, `ITV 92-1424`).
-`Tipo\_Suelo` (STRING): Textura y clasificación edafológica (ej. Franco Arcilloso, Arcilloso Pesado, Vegas de Río).
-`Contrato\_Ingenio` (STRING): Factoría o ingenio receptor de la caña (ej. Ingenio El Potrero, Ingenio El Modelo, Ingenio San Cristóbal).
-`Ubicacion\_Municipio` (STRING): Demarcación geográfica (ej. Alvarado, Córdoba, Atoyac, Paso del Macho).
-`Regimen\_Fiscal\_SAT` (ENUM): Régimen tributario aplicable al productor para el tratamiento de deducciones y retenciones:
-`'RESICO\_PF\_EXENTO'`: Persona Física RESICO con ingresos anuales proyectados $\le $900,000.00\text{ MXN}$ (Exención total de ISR del Sector Primario).
-`'RESICO\_PF\_GRAVADO'`: Persona Física RESICO con ingresos anuales $> $900,000.00\text{ MXN}$ y hasta $$3,500,000.00\text{ MXN}$ (Sujeto a retención del $1.25%$ de ISR por el ingenio).
-`'PFAE\_GENERAL'`: Persona Física con Actividades Empresariales y Profesionales (Deducción directa de gastos e inversiones contra ingresos acumulables; cálculo progresivo de ISR).
-`'MORAL\_AGAPE'`: Persona Moral del Sector Primario (Sociedades de Producción Rural - SPR, Sociedades Civiles o Coordinados bajo el Art. 74 LISR; exención por socio de 20 UMA anuales y reducción del $30%$ en ISR).
-`'SIN\_REGISTRO\_FORMAL'`: Productor no registrado ante el SAT o ejidatario liquidado por cuenta de terceros / uniones locales (Solo control de costo operativo interno).
-`Estatus\_Escrituracion` (ENUM): `'Propiedad Privada'` | `'En Trámite'` | `'Certificado Parcelario / Ejidal'`.
-`Folio\_Notarial\_Tramite` (STRING): Número de escritura pública, expediente notarial o título agrario.
-`Apoyo\_Gubernamental\_MXN` (NUMERIC): Subsidio recibido por ciclo productivo (ej. Producción para el Bienestar).
+#### 1. `03_REGISTRO_PARCELAS` (Dimensión Predio - Multi-tenant y Fiscal)
+*Rango Federado en BigQuery Sandbox:* `03_REGISTRO_PARCELAS!A:J` (10 Columnas)
+
+- `Lote_ID` (STRING, PK): Identificador único del predio (Col A).
+- `Nombre_Predio` (STRING): Nombre común o toponímico de la parcela (Col B).
+- `Superficie_Ha` (NUMERIC): Extensión territorial cultivable en hectáreas (Col C).
+- `Variedad` (STRING): Variedad agronómica establecida, ej. MEX 69-290 (Col D).
+- `Tipo_Suelo` (STRING): Textura edafológica, ej. Franco Arcilloso (Col E).
+- `Contrato_Ingenio` (STRING): Factoría o ingenio receptor, ej. Ingenio El Modelo (Col F).
+- `Ubicacion_Municipio` (STRING): Demarcación geográfica, ej. Alvarado (Col G).
+- `Estatus_Escrituracion` (STRING): 'Propiedad Privada' | 'En Trámite' | 'Certificado Parcelario' (Col H).
+- `Folio_Notarial_Tramite` (STRING): Número de expediente agrario o notarial (Col I).
+- `Apoyo_Gubernamental_MXN` (NUMERIC): Subsidio recibido por ciclo productivo (Col J).
 ---
 2. `02\_COSTOS\_ESTANDAR` (Dimensión Referencial de Precios - Calibrada)
 Propósito: Proveer la línea base de costos unitarios y dosificaciones recomendadas según los planes agronómicos optimizados.
