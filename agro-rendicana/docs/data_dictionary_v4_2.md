@@ -98,14 +98,14 @@
 - `Toneladas_Brutas` (NUMERIC): Peso total del transporte descontando tara del camión.
 - `Porcentaje_Castigo_Materia_Extrana` (NUMERIC): Deducción aplicada en laboratorio por impurezas (hojas, tierra, paja).
 - `Toneladas_Netas` (NUMERIC): Toneladas liquidadas por el ingenio tras descontar castigos:
-  $$\text{Toneladas\_Netas} = \text{Toneladas\_Brutas} \times \left(1 - \frac{\text{Porcentaje\_Castigo}}{100}\right)$$
+  $$\text{Toneladas Netas} = \text{Toneladas Brutas} \times \left(1 - \frac{\text{Porcentaje Castigo}}{100}\right)$$
 - `Pol_Cana` (NUMERIC): Concentración aparente de sacarosa en el jugo.
 - `Pureza_Jugo` (NUMERIC): Proporción de sacarosa en los sólidos disueltos totales.
 - `KARBE_Obtenido` (NUMERIC): Kilogramos de Azúcar Recuperable Base Estándar certificados por tonelada de caña.
 - `Precio_Base_Ton_MXN` (NUMERIC): Cotización de la caña fijada para el ciclo según precio de referencia nacional.
 - `Precio_Ajustado_Ton_MXN` (NUMERIC): Precio neto resultante tras ajustes de calidad y deducciones de molienda.
 - `Valor_Bruto_Liquidacion_MXN` (NUMERIC): Importe devengado por el viaje:
-  $$\text{Valor\_Bruto} = \text{Toneladas\_Netas} \times \text{Precio\_Ajustado\_Ton\_MXN}$$
+  $$\text{Valor Bruto} = \text{Toneladas Netas} \times \text{Precio Ajustado Ton MXN}$$
 
 ---
 
@@ -158,8 +158,8 @@
 #### 8. `09_MODULO_FISCAL` (Matriz de Cumplimiento Tributario y Liquidación)
 *Propósito:* Desacoplar la retención del ingenio de la ganancia operativa neta bajo el marco fiscal RESICO / AGAPE.
 
-- `Productor_ID` (STRING, PK/FK): Identificador del titular fiscal.
-- `Regimen_Fiscal_Activo` (STRING): Régimen tributario asignado ante el SAT.
+- `Productor_ID` (STRING, PK/FK): Identificador del titular fiscal ante el SAT.
+- `Regimen_Fiscal_Activo` (STRING): Régimen tributario asignado en `03_REGISTRO_PARCELAS`.
 - `Ingresos_Brutos_Acumulados_MXN` (NUMERIC): Suma acumulada de liquidaciones cobradas en el ejercicio fiscal.
 - `Monto_Exento_ISR_MXN` (NUMERIC):
   * RESICO PF: Hasta $900,000.00 MXN anuales exentos del sector primario.
@@ -172,6 +172,7 @@
 ---
 
 ## 2. RELACIONES E INTEGRIDAD REFERENCIAL (SCHEMA MAP)
+
 ```text
 [ 03_REGISTRO_PARCELAS ] (1) 
    │
