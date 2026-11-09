@@ -1,105 +1,46 @@
-# RendiCaña v4.2: Arquitectura Cloud-Native de Inteligencia Financiera y Auditoría de Zafra ($0 USD)
-
-> **Titular:** Elías Cruz Álvarez  
-> **Rol:** Analytics Translator & Senior SaaS Architect  
-> **Especialidad:** Optimización Agroindustrial, Modelado Dimensional y Gobernanza de Datos  
-> **Stack:** Google Cloud Platform (BigQuery Sandbox) | Looker Studio | Git / GitHub  
-
----
-
-## 1. El Problema de Negocio (Wicked Environment)
-En la cuenca cañera de Veracruz (zona de abastecimiento de factorías como *Ingenio El Modelo* e *Ingenio La Gloria*), los productores tradicionales enfrentan una **ceguera financiera estructural**:
-* **Desconocimiento del Margen Real de Bolsillo:** El productor recibe la liquidación final del ingenio y asume que el alcance depositado representa su utilidad, sin auditar ni conciliar los egresos de efectivo acumulados durante los 12 meses de cultivo (fertilización, combustible, labores mecánicas y jornales).
-* **Opacidad en Deducciones de Báscula:** Los descuentos por corte mecanizado, flete de acarreo, cuotas IMSS y castigos por materia extraña absorben más del 50% del valor bruto liquidable, sin un control granular por predio.
+# 🌾 RendiCaña: Agroindustrial Financial Intelligence & Zafra Audit
+**Project Status:** `COMPLETED & ARCHIVED (Proof of Concept / Technical Case Study)`  
+**Architect & Analytics Translator:** Elías Cruz Álvarez  
+**Core Stack:** Google Cloud Platform (BigQuery Sandbox), Looker Studio, Connected Sheets, Python  
+**Cost to Operate:** $0.00 USD (FinOps Cloud-Native Design)
 
 ---
 
-## 2. Arquitectura de Datos (Framework E.V.A.)
+## 📌 Executive Summary
+RendiCaña is an agroindustrial analytics engine designed to audit financial margins, harvest logistics, and scale deductions (*mermas de báscula*) for sugarcane production across the Veracruz agro-basin (Cordoba, Alvarado, and Papaloapan regions). 
 
-Operando bajo la **regla estricta de $0 USD de costo de infraestructura**, el sistema se diseñó desacoplando el almacenamiento de la capa lógica y de visualización:
-
-```text
-┌──────────────────────────────────────┐
-│  Captura Normalizada de Zafra (v4.2) │
-└──────────────────┬───────────────────┘
-                   │
-                   ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│             Google BigQuery Sandbox (Almacén Dimensional)             │
-│  • dim_parcelas: Catastro, tenencia y régimen fiscal SAT (Multi-tenant)│
-│  • fact_karbe_molienda: Liquidaciones de báscula, KARBE y retenciones   │
-│  • fact_registro_costos: Transacciones de campo (Partición diaria)     │
-└──────────────────┬─────────────────────────────────────────────────────┘
-                   │
-                   ▼ (Vía CTEs deterministas sin mutación física)
-┌────────────────────────────────────────────────────────────────────────┐
-│              vw_datos_maestros (Capa Semántica y Lógica)               │
-│  • Pre-agregación de costos (eliminación de producto cartesiano / fan) │
-│  • Cálculo de Margen Neto de Bolsillo y Semáforo de Riesgo Logístico   │
-└──────────────────┬─────────────────────────────────────────────────────┘
-                   │
-                   ▼ (DirectQuery a $0 USD de cómputo)
-┌────────────────────────────────────────────────────────────────────────┐
-│                   Looker Studio (Dashboard Ejecutivo)                  │
-│  • KPIs de Superficie, Molienda y Costo Unitario de Acarreo            │
-│  • Matriz de Rentabilidad Predial y Auditoría de Deducciones           │
-└────────────────────────────────────────────────────────────────────────┘
-
-```
-
-### Modelo Dimensional Estrella
-
-* **`dim_parcelas`:** Dimensión conformada que registra superficie real cosechada, variedad agronómica, contrato de ingenio y régimen fiscal SAT (RESICO, PFAE, AGAPE).
-* **`fact_karbe_molienda`:** Hechos transaccionales de báscula en batey (toneladas brutas/netas, castigo de materia extraña, KARBE certificado y retenciones de zafra).
-* **`fact_registro_costos`:** Hechos operacionales de insumos y mano de obra con partición por `Fecha` y clustering por `(Productor_ID, Lote_ID)`, controlando trazabilidad de CFDI.
-* **`vw_datos_maestros`:** Vista federada compilada con CTEs que precalcula los costos agregados por lote antes del `LEFT JOIN`, erradicando duplicidades (*fan-out effect*) y computando el semáforo en tiempo real.
+This repository consolidates the dimensional data model, SQL analytical views, and executive dashboard architecture built to reconcile field expenditures against mill (*ingenio*) liquidation statements.
 
 ---
 
-## 3. Hallazgos Financieros y Retorno de Inversión (ROI)
+## 🏗️ Architecture & Framework E.V.A.
+The solution follows the **E.V.A. Operational Framework** (Structure, Value, Automation) under a strict **$0 USD FinOps** constraint:
 
-Auditando un ciclo agrícola real de **50.0 Hectáreas** y **2,361.76 Toneladas Netas** distribuidas en 6 predios piloto:
-
-| Indicador Financiero Clave | Valor Auditado (MXN) | Interpretación de Negocio |
-| :--- | :---: | :--- |
-| **Valor Bruto Devengado en Zafra** | **$2,350,922.23** | Liquidación total calculada por tonelaje neto y KARBE. |
-| **Deducciones Totales de Zafra** | **$1,408,745.93** | Retenciones del ingenio por corte, flete, cuotas y amortizaciones. |
-| **Tasa de Absorción Logística Promedio** | **59.92%** | Cosecha y acarreo consumen más de la mitad del valor del cañal. |
-| **Alcance Neto Depositado por Ingenio** | **$599,072.25** | Efectivo aparente recibido por los productores en banco. |
-| **Inversión Agronómica de Campo** | **$822,400.00** | Egresos reales de cultivo ($16,000–$17,000 MXN/Ha en soca). |
-| **Margen Neto de Bolsillo Real** | **-$223,327.75** | **Déficit operativo consolidado encubierto para el cañero.** |
-
-```text
-                       DESGLOSE DE FLUJO FINANCIERO
-  Ingreso Bruto de Zafra: $2,350,922.23 MXN
-  │
-  ├── [ - ] Deducciones de Factoría: $1,408,745.93 MXN (59.92% Absorción)
-  │         └── Alcance Líquido de Báscula: $599,072.25 MXN
-  │
-  └── [ - ] Egresos Reales de Cultivo: $822,400.00 MXN (Fertilizantes + Labores)
-            └── SALDO FINAL DE BOLSILLO: -$223,327.75 MXN (Déficit Real)
-```
-
-### Diagnóstico de Semáforo de Riesgo
-
-* **SOBRECOSTO LOGISTICO (Mayor al 55% de absorción):** Predios donde el flete y corte castigaron severamente la utilidad.
-* **CONTROLADO (Menor al 50% de absorción):** Predios optimizados donde el margen neto amortizó los costos de cultivo (ej. `LOTE-006` con utilidad positiva de **+$5,017.43 MXN**).
+1. **E (Structure & Hygiene):** 
+   - Normalized dimensional model separating dimensions (`03_REGISTRO_PARCELAS`, `02_COSTOS_ESTANDAR`) from transactional facts (`04_REGISTRO_COSTOS`, `05_KARBE_CALIDAD`).
+   - Integrated fiscal classification engine for Mexican agricultural regimes (RESICO PF Exento/Gravado, PFAE, and AGAPE).
+2. **V (Value & Translation):**
+   - Direct translation of agronomic metrics into monetary P&L impact: Cost per Ton, Net Margin per Hectare, and Budget Burn Ratios.
+   - High Data-Ink Ratio executive dashboard designed for decision-makers and non-technical stakeholders.
+3. **A (Automation & Hybrid Pipeline):**
+   - **Data Warehouse:** Google BigQuery Sandbox executing CTEs and aggregation views.
+   - **Resilience Layer:** Connected Google Sheets for rapid operational entry without federated IAM friction.
+   - **Executive BI:** Looker Studio Gold Master single-page audit interface.
 
 ---
 
-## 4. Evidencia Visual del Dashboard (Looker Studio)
-
-![Auditoría Ejecutiva de Zafra](img/rendicana_dashboard_exec.png)
+## 📊 Key Deliverables & Artifacts
+- **Data Dictionary:** Normalized relacional schema covering 9 parcels (65.5 Ha) and agronomic cost baselines ($16,810/Ha for socas; $34,690/Ha for plantillas).
+- **Analytical Views:** Precompiled GoogleSQL logic determining financial semaphores (`CONTROLADO` vs. `SOBRECOSTO`).
+- **Executive Audit Board:** 1-Page automated dashboard showing Real Incurred Cost vs. Mill Bank Reach liquidation.
 
 ---
 
-## 5. Estructura del Repositorio
+## 🔍 Market Validation & Strategic Post-Mortem
+Following prototype validation in Google AI Studio and field workflow testing with regional producers:
+* **The Agronomic & Financial Math:** Validated 100% accurate. The model successfully detects over-budget lots and uncredited VAT deductions.
+* **Adoption Friction:** Traditional sugarcane producers exhibit severe behavioral friction for daily manual logging. Manual concierge distribution models yield unsustainable operational overhead.
+* **Strategic Verdict:** The operational engine and visual dashboard are deemed **Complete and Validated as an Architectural Case Study**. Further active feature development is frozen; future expansions would strictly require automated document intake (OCR via Vision APIs) rather than daily operational capture.
 
-* **`sql/`**: Scripts DDL de tablas particionadas, ingesta atómica y vista maestra compilada.
-  * `01_dim_parcelas.sql`: Catastro parcelario y régimen fiscal SAT.
-  * `02_fact_karbe_molienda.sql`: Liquidaciones y retenciones del ingenio.
-  * `03_fact_registro_costos.sql`: Inversión agronómica particionada por fecha.
-  * `04_vw_datos_maestros.sql`: Motor lógico de márgenes y semáforos.
-  * `05_auditoria_metricas.sql`: Script de cuadratura y validación de totales.
-* **`docs/`**: Diccionario de datos oficial v4.2 con reglas de negocio y calibración de costos estándar de soca ($16,810/Ha) y plantilla ($34,690/Ha).
-* **`img/`**: Capturas del reporte ejecutivo interactivo desplegado en Looker Studio.
+---
+*Maintained as part of the BizOps & AI Operations strategic portfolio.*
